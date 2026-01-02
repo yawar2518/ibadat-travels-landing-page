@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBADAT - Umrah Packages</title>
+    <link rel="icon" href="https://i.pinimg.com/474x/a9/2a/b5/a92ab56a225cef3bf88e624df4bcf025.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">
+                <img src="https://kabarbaik.co/wp-content/uploads/2025/06/KAKBAH-ILUSTRASI.jpg" alt="IBADAT Logo"
+                    class="logo-img">
+                <div>
+                    <h1>IBADAT</h1>
+                    <p>Umrah & Zayarat Group</p>
+                </div>
+            </a>
+
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="navMenu">
+                <li><a href="../index.html#home">Home</a></li>
+                <li><a href="../index.html#about">About Us</a></li>
+                <li><a href="../index.html#services">Services</a></li>
+                <li><a href="./umrah-packages.html" class="blink">Packages</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="packages-page">
+        <section class="packages-hero">
+            <h2>Umrah Packages</h2>
+            <p>Explore our professionally curated Umrah packages — comfortable hotels, reliable flights, and trusted service.</p>
+        </section>
+
+        <!-- Filters -->
+        <div class="filter-bar" role="toolbar" aria-label="Package Filters">
+            <div class="filter-group">
+                <label for="filter-date-from">From</label>
+                <input id="filter-date-from" type="date">
+            </div>
+
+            <div class="filter-group">
+                <label for="filter-date-to">To</label>
+                <input id="filter-date-to" type="date">
+            </div>
+
+            <div class="filter-group">
+                <label for="filter-days">Days</label>
+                <select id="filter-days">
+                    <option>Any</option>
+                    <option>7-10</option>
+                    <option>11-15</option>
+                    <option>16+</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="filter-flight">Flight</label>
+                <select id="filter-flight">
+                    <option>Any</option>
+                    <option>With Flight</option>
+                    <option>Without Flight</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="filter-hotel">Hotel</label>
+                <select id="filter-hotel">
+                    <option>Any</option>
+                    <option>1-2 star</option>
+                    <option>3 star</option>
+                    <option>4+ star</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="filter-price">Price Range</label>
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <input id="filter-price-min" type="number" placeholder="Min" style="width: 70px;">
+                    <span>—</span>
+                    <input id="filter-price-max" type="number" placeholder="Max" style="width: 70px;">
+                </div>
+            </div>
+
+            <div class="filter-actions">
+                <button class="btn btn-primary" id="applyFilters">Apply</button>
+                <button class="btn btn-outline" id="resetFilters">Reset</button>
+            </div>
+        </div>
+
+        <div class="packages-container">
+            <section class="packages-list">
+                <div class="packages-grid" id="packagesGrid">
+                    <!-- Packages will be rendered here by JS -->
+                    <p id="noPackages" class="muted" style="display:none">No packages available. Admin can add packages via <code>/pages/admin.html</code>.</p>
+                </div> 
+            </section>
+        </div>
+    </main>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/data-store.js"></script>
+    <script src="../js/umrah.js"></script>
+</body>
+
+</html>
