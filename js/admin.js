@@ -56,6 +56,21 @@
     const img = document.createElement('img'); img.src = src; img.alt = 'Preview'; img.onload = ()=>{}; imgPreview.appendChild(img);
   }
 
+  function limitChars(text, maxChars){
+    if(!text) return '';
+    const trimmed = text.trim();
+    if(trimmed.length <= maxChars) return trimmed;
+    return trimmed.slice(0, maxChars) + '…';
+  }
+
+  function updateDescCounter(){
+    const counter = document.getElementById('descCounter');
+    if(!counter || !pkgForm.desc) return;
+    const text = pkgForm.desc.value || '';
+    const chars = text.length;
+    counter.textContent = `${chars} / 500 chars`;
+  }
+
   function openEdit(pkg){
     formTitle.textContent = 'Edit Package';
     formWrap.classList.remove('hidden');
@@ -67,6 +82,7 @@
     pkgForm.dateFrom.value = pkg.dateFrom || '';
     pkgForm.dateTo.value = pkg.dateTo || '';
     pkgForm.depTime.value = pkg.depTime || '';
+    pkgForm.arrTime.value = pkg.arrTime || '';
     pkgForm.days.value = pkg.days || '';
     pkgForm.badges.value = (pkg.badges || []).join(',');
     pkgForm.meta.value = pkg.meta || '';
@@ -76,6 +92,7 @@
     pkgForm.triple.value = pkg.prices?.triple || '';
     pkgForm.double.value = pkg.prices?.double || '';
     pkgForm.quad.value = pkg.prices?.quad || '';
+    updateDescCounter();
     setTimeout(() => formWrap.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
   }
 
@@ -86,6 +103,7 @@
     pkgForm.id.value = '';
     imgPreview.innerHTML = '';
     lastImageDataUrl = null;
+    updateDescCounter();
     setTimeout(() => formWrap.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
   }
 
@@ -141,7 +159,10 @@
     if(!title) { alert('Title is required'); return false; }
     if(pkgForm.days.value && Number(pkgForm.days.value) < 1){ alert('Days must be at least 1'); return false; }
     if(pkgForm.sharing.value && isNaN(Number(pkgForm.sharing.value))) { alert('Sharing price must be numeric'); return false; }
-    if(pkgForm.desc.value && pkgForm.desc.value.length > 1000) { if(!confirm('Description is long (>1000 chars). Continue?')) return false; }
+    if(pkgForm.desc.value){
+      const chars = pkgForm.desc.value.length;
+      if(chars > 500){ alert('Description must be 500 characters or fewer.'); return false; }
+    }
     return true;
   }
 
@@ -155,11 +176,12 @@
       dateFrom: pkgForm.dateFrom.value || '',
       dateTo: pkgForm.dateTo.value || '',
       depTime: pkgForm.depTime.value || '',
+      arrTime: pkgForm.arrTime ? (pkgForm.arrTime.value || '') : '',
       days: Number(pkgForm.days.value) || 0,
       badges: pkgForm.badges.value ? pkgForm.badges.value.split(',').map(s=>s.trim()).filter(Boolean) : [],
       meta: pkgForm.meta.value || '',
       hotels: pkgForm.hotels.value || '',
-      desc: pkgForm.desc.value || '',
+      desc: limitChars(pkgForm.desc.value || '', 500),
       prices: { sharing: pkgForm.sharing.value || '', triple: pkgForm.triple.value || '', double: pkgForm.double.value || '', quad: pkgForm.quad.value || '' }
     };
     const id = pkgForm.id.value;
@@ -171,6 +193,7 @@
 
   // on load
   document.addEventListener('DOMContentLoaded', async ()=>{
+    if(pkgForm && pkgForm.desc){ pkgForm.desc.addEventListener('input', updateDescCounter); updateDescCounter(); }
     // Logout when navigating away from admin page to any internal page
     document.querySelectorAll('a').forEach(link => {
       const href = link.getAttribute('href');

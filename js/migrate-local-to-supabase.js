@@ -9,6 +9,7 @@ window.migrateLocalToSupabase = async function(){
       date_from: p.dateFrom || null,
       date_to: p.dateTo || null,
       dep_time: p.depTime || null,
+      arr_time: p.arrTime || null,
       days: p.days || null,
       badges: p.badges || null,
       meta: p.meta || null,
