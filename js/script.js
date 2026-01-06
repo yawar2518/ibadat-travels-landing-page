@@ -35,9 +35,12 @@ if (navLinks.length) {
 // Smooth scrolling for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        // Only prevent default for anchor links that have a matching target on this page
+        const href = this.getAttribute('href');
+        const target = document.querySelector(href);
+        
         if (target) {
+            e.preventDefault();
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             document.getElementById('navMenu').classList.remove('active');
         }

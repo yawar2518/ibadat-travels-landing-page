@@ -190,10 +190,11 @@ nav a:hover {
    HERO SLIDER
    ======================================== */
 .hero-slider {
-    margin-top: 80px;
+    margin-top: 100px;
     height: 600px;
     position: relative;
     overflow: hidden;
+    scroll-margin-top: 100px;
 }
 
 .slide {
@@ -204,6 +205,7 @@ nav a:hover {
     transition: opacity 1s ease-in-out;
     background-size: cover;
     background-position: center;
+    pointer-events: none;
 }
 
 .slide:nth-child(1) {
@@ -223,6 +225,7 @@ nav a:hover {
 
 .slide.active {
     opacity: 1;
+    pointer-events: auto;
 }
 
 .slide-content {
@@ -309,6 +312,7 @@ nav a:hover {
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
     align-items: center;
+    scroll-margin-top: 90px;
 }
 
 .about-content h2 {
@@ -350,6 +354,7 @@ nav a:hover {
 .services-section {
     background: var(--bg-light);
     padding: 5rem 2rem;
+    scroll-margin-top: 90px;
 }
 
 .services-container {
@@ -473,6 +478,7 @@ nav a:hover {
     padding: 5rem 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    scroll-margin-top: 90px;
 }
 
 .contact-section h2 {
@@ -1137,14 +1143,18 @@ main {
         background: var(--primary-dark);
         flex-direction: column;
         padding: 1rem 0;
-        display: none;
+        display: flex;
         gap: 0;
-        max-height: calc(100vh - 70px);
-        overflow-y: auto;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.3s ease, opacity 0.3s ease;
     }
 
     nav ul.active {
-        display: flex;
+        max-height: calc(100vh - 70px);
+        opacity: 1;
+        overflow-y: auto;
     }
 
     nav a {
@@ -1367,7 +1377,7 @@ main {
 
     .hero-slider {
         height: 300px;
-        margin-top: 65px;
+        margin-top: 75px;
     }
 
     .slide-content h2 {
