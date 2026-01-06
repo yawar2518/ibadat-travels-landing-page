@@ -1,7 +1,5 @@
-// Enhanced admin page logic: username+password, validation, image upload/preview
+// Enhanced admin page logic: Supabase Auth + async CRUD (replaces local-only auth)
 (function(){
-  const ADMIN_USER = 'admin';
-  const ADMIN_PWD = 'admin123'; // change as needed. Client-side only — not secure for production.
   const MAX_IMG_SIZE = 1024 * 1024; // 1MB recommended
 
   const loginForm = document.getElementById('loginForm');
@@ -22,11 +20,11 @@
   function isAuthed(){ return sessionStorage.getItem('ibadat_admin_authed') === '1'; }
   function setAuthed(v){ if(v) sessionStorage.setItem('ibadat_admin_authed','1'); else sessionStorage.removeItem('ibadat_admin_authed'); }
 
-  function showDashboard(){ loginBox.classList.add('hidden'); dashboard.classList.remove('hidden'); renderList(); }
+  async function showDashboard(){ loginBox.classList.add('hidden'); dashboard.classList.remove('hidden'); await renderList(); }
   function showLogin(){ loginBox.classList.remove('hidden'); dashboard.classList.add('hidden'); }
 
-  function renderList(){
-    const all = PackageStore.getAll();
+  async function renderList(){
+    const all = await PackageStore.getAll();
     listEl.innerHTML = '';
     if(!all || !all.length){ listEl.innerHTML = '<p class="muted">No packages yet.</p>'; return; }
     all.forEach(p=>{
@@ -43,8 +41,9 @@
       const edit = document.createElement('button'); edit.className='btn btn-outline'; edit.textContent='Edit';
       edit.addEventListener('click', ()=>openEdit(p));
       const del = document.createElement('button'); del.className='btn danger'; del.textContent='Delete';
-      del.addEventListener('click', ()=>{
-        if(confirm('Delete this package?')){ PackageStore.remove(p.id); renderList(); }
+      del.addEventListener('click', async ()=>{
+        if(!isAuthed()){ alert('Please sign in to perform this action'); return; }
+        if(confirm('Delete this package?')){ await PackageStore.remove(p.id); await renderList(); }
       });
       row.appendChild(t); row.appendChild(edit); row.appendChild(del);
       listEl.appendChild(row);
@@ -88,11 +87,18 @@
     lastImageDataUrl = null;
   }
 
-  loginForm.addEventListener('submit', (e)=>{
+  loginForm.addEventListener('submit', async (e)=>{
     e.preventDefault();
     const user = loginForm.user.value?.trim();
     const pwd = loginForm.pwd.value;
-    if(user === ADMIN_USER && pwd === ADMIN_PWD){ setAuthed(true); showDashboard(); } else { alert('Invalid username or password'); }
+    // Assume user provides an email as username. Create admin user in Supabase dashboard beforehand.
+    try{
+      const email = user;
+      const { data, error } = await window.supabase.auth.signInWithPassword({ email, password: pwd });
+      if(error){ alert('Login failed: ' + error.message); return; }
+      setAuthed(true);
+      await showDashboard();
+    }catch(err){ alert('Login failed'); }
   });
 
   // Auto logout when leaving the page/tab (hide dashboard and clear session immediately)
@@ -100,8 +106,8 @@
   window.addEventListener('pagehide', ()=>{ setAuthed(false); });
   window.addEventListener('beforeunload', ()=>{ setAuthed(false); });
 
-  addBtn.addEventListener('click', openAdd);
-  logoutBtn.addEventListener('click', ()=>{ setAuthed(false); showLogin(); });
+  addBtn.addEventListener('click', ()=>{ if(!isAuthed()){ alert('Please sign in to add packages'); return; } openAdd(); });
+  logoutBtn.addEventListener('click', async ()=>{ await window.supabase.auth.signOut(); setAuthed(false); showLogin(); });
   cancelEdit.addEventListener('click', ()=>{ formWrap.classList.add('hidden'); });
 
   imageFile.addEventListener('change', (ev)=>{
@@ -135,8 +141,9 @@
     return true;
   }
 
-  pkgForm.addEventListener('submit', (e)=>{
+  pkgForm.addEventListener('submit', async (e)=>{
     e.preventDefault();
+    if(!isAuthed()){ alert('Please sign in to perform this action'); return; }
     if(!validateForm()) return;
     const data = {
       title: pkgForm.title.value.trim(),
@@ -152,14 +159,17 @@
       prices: { sharing: pkgForm.sharing.value || '', triple: pkgForm.triple.value || '', double: pkgForm.double.value || '', quad: pkgForm.quad.value || '' }
     };
     const id = pkgForm.id.value;
-    if(id){ PackageStore.update(id, data); } else { PackageStore.add(data); }
+    if(id){ await PackageStore.update(id, data); } else { await PackageStore.add(data); }
     formWrap.classList.add('hidden');
-    renderList();
+    await renderList();
     // notify other tabs (storage event is triggered automatically by PackageStore saves)
   });
 
   // on load
-  document.addEventListener('DOMContentLoaded', ()=>{
-    if(isAuthed()) showDashboard(); else showLogin();
+  document.addEventListener('DOMContentLoaded', async ()=>{
+    try{
+      const { data } = await window.supabase.auth.getUser();
+      if(data && data.user){ setAuthed(true); await showDashboard(); } else { setAuthed(false); showLogin(); }
+    }catch(e){ setAuthed(false); showLogin(); }
   });
 })();

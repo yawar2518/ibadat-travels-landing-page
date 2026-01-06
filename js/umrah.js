@@ -1,12 +1,9 @@
-// Renders packages into #packagesGrid and connects with filters
+// Renders packages into #packagesGrid and connects with filters (async)
 (function(){
   const grid = document.getElementById('packagesGrid');
   const noPackages = document.getElementById('noPackages');
 
-  function formatPrice(val){
-    if(!val) return '';
-    return 'PKR ' + Number(val).toLocaleString();
-  }
+  function formatPrice(val){ if(!val) return ''; return 'PKR ' + Number(val).toLocaleString(); }
 
   function createCard(pkg){
     const article = document.createElement('article');
@@ -61,19 +58,12 @@
 
   function formatDateRange(from,to){
     if(!from && !to) return '';
-    try{
-      const a = from ? new Date(from).toLocaleDateString() : '';
-      const b = to ? new Date(to).toLocaleDateString() : '';
-      return a && b ? `${a} - ${b}` : a || b;
-    }catch(e){ return `${from || ''} ${to || ''}` }
+    try{ const a = from ? new Date(from).toLocaleDateString() : ''; const b = to ? new Date(to).toLocaleDateString() : ''; return a && b ? `${a} - ${b}` : a || b; }catch(e){ return `${from || ''} ${to || ''}` }
   }
 
   function render(list){
     grid.innerHTML = '';
-    if(!list || !list.length){
-      noPackages.style.display = '';
-      return;
-    }
+    if(!list || !list.length){ noPackages.style.display = ''; return; }
     noPackages.style.display = 'none';
     list.forEach(pkg=>grid.appendChild(createCard(pkg)));
   }
@@ -90,8 +80,8 @@
     return { from,to,days,flight,hotel,min,max };
   }
 
-  function applyFilters(){
-    let packages = PackageStore.getAll();
+  async function applyFilters(){
+    let packages = await PackageStore.getAll();
     const f = getFilters();
     if(f.from){ packages = packages.filter(p => p.dateFrom && new Date(p.dateFrom) >= new Date(f.from)); }
     if(f.to){ packages = packages.filter(p => p.dateTo && new Date(p.dateTo) <= new Date(f.to)); }
