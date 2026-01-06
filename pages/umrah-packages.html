@@ -45,61 +45,7 @@
             <p>Explore our professionally curated Umrah packages — comfortable hotels, reliable flights, and trusted service.</p>
         </section>
 
-        <!-- Filters -->
-        <div class="filter-bar" role="toolbar" aria-label="Package Filters">
-            <div class="filter-group">
-                <label for="filter-date-from">From</label>
-                <input id="filter-date-from" type="date">
-            </div>
-
-            <div class="filter-group">
-                <label for="filter-date-to">To</label>
-                <input id="filter-date-to" type="date">
-            </div>
-
-            <div class="filter-group">
-                <label for="filter-days">Days</label>
-                <select id="filter-days">
-                    <option>Any</option>
-                    <option>7-10</option>
-                    <option>11-15</option>
-                    <option>16+</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="filter-flight">Flight</label>
-                <select id="filter-flight">
-                    <option>Any</option>
-                    <option>With Flight</option>
-                    <option>Without Flight</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="filter-hotel">Hotel</label>
-                <select id="filter-hotel">
-                    <option>Any</option>
-                    <option>1-2 star</option>
-                    <option>3 star</option>
-                    <option>4+ star</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="filter-price">Price Range</label>
-                <div style="display: flex; gap: 0.5rem; align-items: center;">
-                    <input id="filter-price-min" type="number" placeholder="Min" style="width: 70px;">
-                    <span>—</span>
-                    <input id="filter-price-max" type="number" placeholder="Max" style="width: 70px;">
-                </div>
-            </div>
-
-            <div class="filter-actions">
-                <button class="btn btn-primary" id="applyFilters">Apply</button>
-                <button class="btn btn-outline" id="resetFilters">Reset</button>
-            </div>
-        </div>
+        <!-- Filters removed for now to simplify UI -->
 
         <div class="packages-container">
             <section class="packages-list">
@@ -119,6 +65,30 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
     <script src="../js/data-store.js"></script>
     <script src="../js/umrah.js"></script>
+
+    <!-- Floating Contact Button -->
+    <a id="contactFab" class="fab" href="../index.html#contact" aria-label="Contact Us" title="Contact Us">
+      <i class="fas fa-envelope"></i>
+    </a>
+
+    <script>
+      // If on index page, smooth scroll to contact form instead
+      (function(){
+        const fab = document.getElementById('contactFab');
+        if(!fab) return;
+        fab.addEventListener('click', function(e){
+          try{
+            // If current page is index.html, perform smooth scroll, prevent navigation
+            const current = window.location.pathname.split('/').pop();
+            if(!current || current === 'index.html'){
+              e.preventDefault();
+              const target = document.getElementById('contact');
+              if(target){ target.scrollIntoView({ behavior: 'smooth', block: 'start' }); target.querySelector('input, textarea, button')?.focus(); }
+            }
+          }catch(err){ /* ignore and allow default */ }
+        });
+      })();
+    </script>
 </body>
 
 </html>

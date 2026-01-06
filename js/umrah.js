@@ -86,60 +86,32 @@
     });
   }
 
-  // filters
-  function getFilters(){
-    const from = document.getElementById('filter-date-from').value;
-    const to = document.getElementById('filter-date-to').value;
-    const days = document.getElementById('filter-days').value;
-    const flight = document.getElementById('filter-flight').value;
-    const hotel = document.getElementById('filter-hotel').value;
-    const min = document.getElementById('filter-price-min').value;
-    const max = document.getElementById('filter-price-max').value;
-    return { from,to,days,flight,hotel,min,max };
-  }
-
-  async function applyFilters(){
-    let packages = await PackageStore.getAll();
-    const f = getFilters();
-    if(f.from){ packages = packages.filter(p => p.dateFrom && new Date(p.dateFrom) >= new Date(f.from)); }
-    if(f.to){ packages = packages.filter(p => p.dateTo && new Date(p.dateTo) <= new Date(f.to)); }
-    if(f.days && f.days!=='Any'){
-      if(f.days==='7-10') packages = packages.filter(p=>p.days>=7 && p.days<=10);
-      if(f.days==='11-15') packages = packages.filter(p=>p.days>=11 && p.days<=15);
-      if(f.days==='16+') packages = packages.filter(p=>p.days>=16);
-    }
-    if(f.flight && f.flight!=='Any'){
-      if(f.flight==='With Flight') packages = packages.filter(p=> (p.meta||'').toLowerCase().includes('to'));
-      if(f.flight==='Without Flight') packages = packages.filter(p=> !(p.meta||'').toLowerCase().includes('to'));
-    }
-    if(f.hotel && f.hotel!=='Any'){
-      if(f.hotel==='1-2 star') packages = packages.filter(p=> (p.hotels||'').toLowerCase().includes('1'));
-      if(f.hotel==='3 star') packages = packages.filter(p=> (p.hotels||'').toLowerCase().includes('3'));
-      if(f.hotel==='4+ star') packages = packages.filter(p=> true); // simple fallback
-    }
-    if(f.min){ packages = packages.filter(p=> Number(p.prices?.sharing || 0) >= Number(f.min)); }
-    if(f.max){ packages = packages.filter(p=> Number(p.prices?.sharing || 0) <= Number(f.max)); }
-
-    render(packages);
-  }
+  // Filters removed — simplified UI
+  function getFilters(){ return {}; }
+  function adjustFiltersVisibility(){ /* no-op; filters removed */ }
+  async function applyFilters(){ /* no-op */ }
 
   // init
   document.addEventListener('DOMContentLoaded', async ()=>{
     const loader = document.getElementById('packagesLoader');
     // show local cached data instantly if available
+    let hadLocal = false;
     try{
       if(window.PackageStore && window.PackageStore.getAllLocal){
         const local = window.PackageStore.getAllLocal();
-        if(local && local.length){ render(local); }
+        if(local && local.length){ render(local); hadLocal = true; adjustFiltersVisibility(local); }
       }
     }catch(e){ /* ignore */ }
 
-    loader.classList.remove('hidden');
+    // Only show loader if we don't have cached data or if network is slow
+    let loaderTimer = null;
+    if(!hadLocal) loaderTimer = setTimeout(()=> loader.classList.remove('hidden'), 150);
+
     try{
       const list = await PackageStore.getAll();
-      render(list);
+      render(list); adjustFiltersVisibility(list);
     }catch(e){ console.error('Failed to load packages', e); if(!grid.children.length) render([]); }
-    loader.classList.add('hidden');
+    finally{ if(loaderTimer) clearTimeout(loaderTimer); loader.classList.add('hidden'); }
 
     document.getElementById('applyFilters').addEventListener('click', applyFilters);
     document.getElementById('resetFilters').addEventListener('click', async ()=>{
@@ -150,13 +122,17 @@
       document.getElementById('filter-hotel').value='Any';
       document.getElementById('filter-price-min').value='';
       document.getElementById('filter-price-max').value='';
-      try{ const list = await PackageStore.getAll(); render(list); }catch(e){ console.error(e); render([]); }
+      // show loader only if we have no cached data
+      const loader2 = document.getElementById('packagesLoader');
+      let lt = null; if(window.PackageStore && !window.PackageStore.getAllLocal) lt = setTimeout(()=> loader2.classList.remove('hidden'), 150);
+      try{ const list = await PackageStore.getAll(); render(list); adjustFiltersVisibility(list); }catch(e){ console.error(e); render([]); }
+      finally{ if(lt) clearTimeout(lt); loader2.classList.add('hidden'); }
     });
 
     // live update: listen for storage events so the page reflects admin changes in other tabs
     window.addEventListener('storage', async (e)=>{
       if(e.key === 'umrah_packages_v1'){
-        try{ const list = await PackageStore.getAll(); render(list); }catch(err){ console.error('storage refresh failed', err); }
+        try{ const list = await PackageStore.getAll(); render(list); adjustFiltersVisibility(list); }catch(err){ console.error('storage refresh failed', err); }
       }
     })
   });
