@@ -1066,10 +1066,11 @@ hr {
     <h2>Admin</h2>
     <div id="loginBox">
       <p>This page is hidden from normal navigation. Access it directly at <code>/pages/admin.html</code>.</p>
+      <p class="muted">Sign in with an admin email created in your Supabase Auth users.</p>
       <form id="loginForm" class="admin-login">
         <div class="form-row">
-          <label for="user">Username</label>
-          <input id="user" name="user" type="text" required>
+          <label for="user">Admin Email</label>
+          <input id="user" name="user" type="email" placeholder="admin@example.com" required>
         </div>
         <div class="form-row">
           <label for="pwd">Password</label>
@@ -1128,6 +1129,8 @@ hr {
     </div>
 
   </main>
+  <script src="../js/supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
   <script src="../js/data-store.js"></script>
   <script src="../js/admin.js"></script>
 </body>
