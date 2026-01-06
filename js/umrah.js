@@ -33,6 +33,7 @@
     metaRow.className = 'card-meta-row';
     metaRow.innerHTML = `<div class="card-date"><i class="fas fa-calendar"></i> ${formatDateRange(pkg.dateFrom,pkg.dateTo)}</div>
     <div class="card-time"><i class="fas fa-clock"></i> Dep: ${pkg.depTime || ''}</div>
+    <div class="card-time"><i class="fas fa-clock"></i> Arr: ${pkg.arrTime || ''}</div>
     <div class="card-days"><i class="fas fa-sun"></i> ${pkg.days || ''} Days</div>`;
 
     const badges = document.createElement('div');
@@ -45,7 +46,7 @@
 
     const meta = document.createElement('div'); meta.className='card-meta'; meta.innerHTML = `<i class="fas fa-plane"></i> ${pkg.meta || ''}`;
     const hotels = document.createElement('div'); hotels.className='card-hotels'; hotels.innerHTML = `<i class="fas fa-building"></i> ${pkg.hotels || ''}`;
-    const desc = document.createElement('p'); desc.className='card-desc'; desc.textContent = pkg.desc || '';
+    const desc = document.createElement('p'); desc.className='card-desc'; desc.textContent = limitChars(pkg.desc || '', 500);
 
     const priceDiv = document.createElement('div'); priceDiv.className = 'card-price';
     const pricesInner = document.createElement('div'); pricesInner.className='prices';
@@ -66,6 +67,13 @@
   function formatDateRange(from,to){
     if(!from && !to) return '';
     try{ const a = from ? new Date(from).toLocaleDateString() : ''; const b = to ? new Date(to).toLocaleDateString() : ''; return a && b ? `${a} - ${b}` : a || b; }catch(e){ return `${from || ''} ${to || ''}` }
+  }
+
+  function limitChars(text, maxChars){
+    if(!text) return '';
+    const trimmed = text.trim();
+    if(trimmed.length <= maxChars) return trimmed;
+    return trimmed.slice(0, maxChars) + '…';
   }
 
   function render(list){
