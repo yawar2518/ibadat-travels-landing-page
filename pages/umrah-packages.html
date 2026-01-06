@@ -103,10 +103,13 @@
 
         <div class="packages-container">
             <section class="packages-list">
+                <div id="packagesLoader" class="loader hidden">Loading packages…</div>
+                <section class="packages-list">
                 <div class="packages-grid" id="packagesGrid">
                     <!-- Packages will be rendered here by JS -->
                     <p id="noPackages" class="muted" style="display:none">No packages available. Admin can add packages via <code>/pages/admin.html</code>.</p>
                 </div> 
+                </section>
             </section>
         </div>
     </main>

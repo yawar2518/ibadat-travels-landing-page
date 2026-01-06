@@ -729,6 +729,10 @@ main {
     transform: translateY(-2px);
 }
 
+/* Entrance animation - GPU friendly */
+.package-card { opacity: 0; transform: translateY(8px); transition: transform .36s cubic-bezier(.2,.9,.2,1), opacity .36s ease; }
+.package-card.visible { opacity: 1; transform: translateY(0); }
+
 .card-image {
     width: 100%;
     height: 220px;
@@ -737,7 +741,20 @@ main {
     border-radius: 8px;
     margin: 12px;
     box-shadow: 0 2px 10px rgba(15, 58, 86, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
+
+/* Thumbnail image inside card - use native lazy loading */
+.card-thumb { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Loader */
+.loader { text-align:center; padding:18px; color:var(--text-muted); font-weight:600; }
+.loader.hidden { display:none !important; }
+.loader:after { content: ''; display:inline-block; margin-left:10px; width:14px; height:14px; border-radius:50%; border:3px solid rgba(0,0,0,0.12); border-top-color:var(--accent-gold); animation: spin 1s linear infinite; vertical-align:middle; }
+@keyframes spin { to{ transform: rotate(360deg); } }
 
 .card-body {
     padding: 18px;

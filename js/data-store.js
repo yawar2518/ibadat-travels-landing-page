@@ -61,12 +61,19 @@
     try{
       const { data, error } = await supabase.from('packages').select('*').order('date_from', { ascending: true });
       if(error) throw error;
-      return (data || []).map(rowToPkg);
+      const list = (data || []).map(rowToPkg);
+      // cache the latest successful fetch locally for instant subsequent loads
+      try{ saveAllLocal(list); }catch(e){ /* ignore */ }
+      return list;
     }catch(e){
       console.warn('Supabase read failed, falling back to localStorage', e);
       return getAllLocal();
     }
   }
+
+  function generateId(){ return 'pkg_' + Math.random().toString(36).slice(2,9); }
+
+  window.PackageStore = { getAll, add, update, remove, saveAllLocal };
 
   async function add(pkg){
     if(!supabase){ pkg.id = pkg.id || generateId(); const all = getAllLocal(); all.push(pkg); saveAllLocal(all); return pkg; }
@@ -104,5 +111,5 @@
 
   function generateId(){ return 'pkg_' + Math.random().toString(36).slice(2,9); }
 
-  window.PackageStore = { getAll, add, update, remove, saveAllLocal };
+  window.PackageStore = { getAll, add, update, remove, saveAllLocal, getAllLocal };
 })(window);

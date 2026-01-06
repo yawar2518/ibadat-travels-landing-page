@@ -13,7 +13,14 @@
     imageDiv.className = 'card-image';
     imageDiv.setAttribute('role','img');
     imageDiv.setAttribute('aria-label', pkg.title);
-    imageDiv.style.backgroundImage = `url('${pkg.image}')`;
+
+    // Use an <img> with native lazy-loading for better perceived performance
+    const img = document.createElement('img');
+    img.className = 'card-thumb';
+    img.loading = 'lazy';
+    img.alt = pkg.title || '';
+    img.src = pkg.image || '';
+    imageDiv.appendChild(img);
 
     const body = document.createElement('div');
     body.className = 'card-body';
@@ -65,7 +72,18 @@
     grid.innerHTML = '';
     if(!list || !list.length){ noPackages.style.display = ''; return; }
     noPackages.style.display = 'none';
-    list.forEach(pkg=>grid.appendChild(createCard(pkg)));
+    const frag = document.createDocumentFragment();
+    list.forEach((pkg,i)=>{
+      const card = createCard(pkg);
+      // staggered delay for nicer entrance
+      card.style.transitionDelay = `${i * 40}ms`;
+      frag.appendChild(card);
+    });
+    grid.appendChild(frag);
+    // trigger visibility after append to run CSS transition
+    requestAnimationFrame(()=>{
+      Array.from(grid.children).forEach(el=> el.classList.add('visible'));
+    });
   }
 
   // filters
@@ -106,11 +124,25 @@
   }
 
   // init
-  document.addEventListener('DOMContentLoaded', ()=>{
-    render(PackageStore.getAll());
+  document.addEventListener('DOMContentLoaded', async ()=>{
+    const loader = document.getElementById('packagesLoader');
+    // show local cached data instantly if available
+    try{
+      if(window.PackageStore && window.PackageStore.getAllLocal){
+        const local = window.PackageStore.getAllLocal();
+        if(local && local.length){ render(local); }
+      }
+    }catch(e){ /* ignore */ }
+
+    loader.classList.remove('hidden');
+    try{
+      const list = await PackageStore.getAll();
+      render(list);
+    }catch(e){ console.error('Failed to load packages', e); if(!grid.children.length) render([]); }
+    loader.classList.add('hidden');
 
     document.getElementById('applyFilters').addEventListener('click', applyFilters);
-    document.getElementById('resetFilters').addEventListener('click', ()=>{
+    document.getElementById('resetFilters').addEventListener('click', async ()=>{
       document.getElementById('filter-date-from').value='';
       document.getElementById('filter-date-to').value='';
       document.getElementById('filter-days').value='Any';
@@ -118,12 +150,14 @@
       document.getElementById('filter-hotel').value='Any';
       document.getElementById('filter-price-min').value='';
       document.getElementById('filter-price-max').value='';
-      render(PackageStore.getAll());
+      try{ const list = await PackageStore.getAll(); render(list); }catch(e){ console.error(e); render([]); }
     });
 
     // live update: listen for storage events so the page reflects admin changes in other tabs
-    window.addEventListener('storage', (e)=>{
-      if(e.key === 'umrah_packages_v1') render(PackageStore.getAll());
+    window.addEventListener('storage', async (e)=>{
+      if(e.key === 'umrah_packages_v1'){
+        try{ const list = await PackageStore.getAll(); render(list); }catch(err){ console.error('storage refresh failed', err); }
+      }
     })
   });
 
