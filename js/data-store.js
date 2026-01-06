@@ -6,10 +6,15 @@
   const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || 'YOUR_ANON_KEY';
 
   let supabase = null;
-  // UMD script exposes `supabase` on window (we included the UMD script in pages)
+  // UMD script exposes a factory `createClient` on window.supabase (we included the UMD script in pages)
   if(window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_ANON_KEY.startsWith('YOUR_')){
     try{
+      // create an actual Supabase client and expose it for other scripts
       supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      // replace the window reference with the client so other code can call window.supabase.auth
+      window.supabase = supabase;
+      // also make a clear alias
+      window.supabaseClient = supabase;
     }catch(e){ console.warn('Failed to init Supabase client', e); supabase = null; }
   }
 

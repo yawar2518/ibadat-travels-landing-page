@@ -92,13 +92,20 @@
     const user = loginForm.user.value?.trim();
     const pwd = loginForm.pwd.value;
     // Assume user provides an email as username. Create admin user in Supabase dashboard beforehand.
+    if(!window.supabase || !window.supabase.auth){ alert('Supabase client not initialized. Make sure config is set.'); return; }
     try{
       const email = user;
-      const { data, error } = await window.supabase.auth.signInWithPassword({ email, password: pwd });
-      if(error){ alert('Login failed: ' + error.message); return; }
+      const res = await window.supabase.auth.signInWithPassword({ email, password: pwd });
+      console.log('signInWithPassword result', res);
+      const { data, error } = res;
+      if(error || !data || !data.user){
+        const msg = error?.message || (data && !data.user ? 'No user returned' : 'Unknown error');
+        alert('Login failed: ' + msg);
+        return;
+      }
       setAuthed(true);
       await showDashboard();
-    }catch(err){ alert('Login failed'); }
+    }catch(err){ console.error('Login exception', err); alert('Login failed: ' + (err.message || err)); }
   });
 
   // Auto logout when leaving the page/tab (hide dashboard and clear session immediately)
