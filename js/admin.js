@@ -17,8 +17,8 @@
 
   let lastImageDataUrl = null;
 
-  function isAuthed(){ return sessionStorage.getItem('ibadat_admin_authed') === '1'; }
-  function setAuthed(v){ if(v) sessionStorage.setItem('ibadat_admin_authed','1'); else sessionStorage.removeItem('ibadat_admin_authed'); }
+  function isAuthed(){ return localStorage.getItem('ibadat_admin_authed') === '1'; }
+  function setAuthed(v){ if(v) localStorage.setItem('ibadat_admin_authed','1'); else localStorage.removeItem('ibadat_admin_authed'); }
 
   async function showDashboard(){ loginBox.classList.add('hidden'); dashboard.classList.remove('hidden'); await renderList(); }
   function showLogin(){ loginBox.classList.remove('hidden'); dashboard.classList.add('hidden'); }
@@ -76,6 +76,7 @@
     pkgForm.triple.value = pkg.prices?.triple || '';
     pkgForm.double.value = pkg.prices?.double || '';
     pkgForm.quad.value = pkg.prices?.quad || '';
+    setTimeout(() => formWrap.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
   }
 
   function openAdd(){
@@ -85,6 +86,7 @@
     pkgForm.id.value = '';
     imgPreview.innerHTML = '';
     lastImageDataUrl = null;
+    setTimeout(() => formWrap.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
   }
 
   loginForm.addEventListener('submit', async (e)=>{
@@ -107,11 +109,6 @@
       await showDashboard();
     }catch(err){ console.error('Login exception', err); alert('Login failed: ' + (err.message || err)); }
   });
-
-  // Auto logout when leaving the page/tab (hide dashboard and clear session immediately)
-  document.addEventListener('visibilitychange', ()=>{ if(document.hidden){ setAuthed(false); showLogin(); }});
-  window.addEventListener('pagehide', ()=>{ setAuthed(false); });
-  window.addEventListener('beforeunload', ()=>{ setAuthed(false); });
 
   addBtn.addEventListener('click', ()=>{ if(!isAuthed()){ alert('Please sign in to add packages'); return; } openAdd(); });
   logoutBtn.addEventListener('click', async ()=>{ await window.supabase.auth.signOut(); setAuthed(false); showLogin(); });
@@ -174,9 +171,24 @@
 
   // on load
   document.addEventListener('DOMContentLoaded', async ()=>{
+    // Logout when navigating away from admin page to any internal page
+    document.querySelectorAll('a').forEach(link => {
+      const href = link.getAttribute('href');
+      // Check if it's an internal link (relative or same domain) and not an anchor
+      if(href && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('tel:') && !href.startsWith('javascript:')) {
+        link.addEventListener('click', (e) => { 
+          setAuthed(false); 
+        });
+      }
+    });
+
     try{
       const { data } = await window.supabase.auth.getUser();
       if(data && data.user){ setAuthed(true); await showDashboard(); } else { setAuthed(false); showLogin(); }
     }catch(e){ setAuthed(false); showLogin(); }
   });
+
+  // Clear auth when navigating away from the page (including manual URL changes)
+  window.addEventListener('pagehide', () => { setAuthed(false); });
+  
 })();
