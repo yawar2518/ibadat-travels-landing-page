@@ -39,6 +39,37 @@ nav {
     padding: 0 2rem;
 }
 
+/* Orange highlight on hover / focus for the navigation */
+nav {
+    position: relative;
+}
+
+/* Keep the nav list neutral — highlight individual links instead */
+nav ul {
+    transition: none;
+}
+
+/* Per-link highlight (desktop & keyboard focus) */
+nav a {
+    position: relative;
+    transition: box-shadow 0.18s ease, transform 0.18s ease, background 0.18s ease;
+    border-radius: 6px;
+}
+
+nav a:hover,
+nav a:focus,
+nav a:focus-visible {
+    box-shadow: 0 0 0 4px rgba(217,119,6,0.24);
+    transform: translateY(-2px);
+    background: rgba(255,255,255,0.04);
+}
+
+/* Ensure mobile opened menu doesn't apply full-menu outline */
+nav ul.active {
+    outline: none;
+    box-shadow: none;
+}  
+
 .logo {
     display: flex;
     align-items: center;
@@ -236,6 +267,15 @@ nav a:hover {
     font-size: 5rem;
     margin-bottom: 1rem;
 }
+.about-image-icon i {
+    font-size: 3.6rem;
+    display: inline-block;
+    color: #fff;
+    transition: transform 0.2s ease;
+}
+.about-image-icon:hover i {
+    transform: translateY(-4px);
+}
 
 /* Services Section */
 .services-section {
@@ -266,13 +306,23 @@ nav a:hover {
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
     text-align: center;
+    border: 2px solid transparent; /* keeps layout stable when border color changes */
 }
 
 .service-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.18), 0 0 0 6px rgba(217, 119, 6, 0.08);
+    border-color: #d97706; /* orange highlight */
+}
+
+/* Highlight the entire services section with a subtle orange outline when hovered */
+.services-section {
+    transition: box-shadow 0.25s ease, outline-color 0.25s ease;
+}
+.services-section:hover {
+    box-shadow: inset 0 0 0 2px rgba(217,119,6,0.06), 0 0 0 6px rgba(217,119,6,0.03);
 }
 
 .service-icon {
@@ -286,6 +336,20 @@ nav a:hover {
     justify-content: center;
     font-size: 2rem;
     margin: 0 auto 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.service-icon i {
+    font-size: 1.6rem;
+    color: #fff;
+    transition: transform 0.2s ease;
+}
+.service-card:hover .service-icon {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+.service-card:focus {
+    outline: none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 
 .service-card h3 {
@@ -328,11 +392,21 @@ nav a:hover {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     transition: all 0.3s;
+    cursor: pointer;
+    outline: none;
 }
 
-.info-item:hover {
-    background: rgba(255, 255, 255, 0.2);
+.info-item:hover,
+.info-item:focus {
+    background: rgba(255, 255, 255, 0.18);
     transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.info-item[aria-pressed="true"] {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-6px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.14);
 }
 
 .info-item h4 {

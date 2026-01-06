@@ -75,4 +75,36 @@
       });
 
 
+      // Interactive info items: toggle pressed state on click/keyboard
+      document.querySelectorAll('.info-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const pressed = item.getAttribute('aria-pressed') === 'true';
+          item.setAttribute('aria-pressed', String(!pressed));
+          item.classList.toggle('selected', !pressed);
+        });
+        item.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            item.click();
+          }
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            const next = item.nextElementSibling;
+            if (next && next.classList.contains('info-item')) next.focus();
+          }
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            const prev = item.previousElementSibling;
+            if (prev && prev.classList.contains('info-item')) prev.focus();
+          }
+        });
+      });
+
+      // Keyboard activation for service cards
+      document.querySelectorAll('.service-card[role="button"]').forEach(card => {
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            card.click();
+          }
+        });
+      });
       
