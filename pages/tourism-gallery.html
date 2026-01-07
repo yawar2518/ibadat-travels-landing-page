@@ -6,12 +6,13 @@
     <title>Tourism Gallery - IBADAT</title>
     <link rel="icon" href="../images/favicon.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css?v=17">
-    <link rel="preload" href="../tourism_imgs/p1.jpg" as="image">
-    <link rel="preload" href="../tourism_imgs/p2.jpg" as="image">
-    <link rel="preload" href="../tourism_imgs/p3.jpg" as="image">
-    <link rel="preload" href="../tourism_imgs/p4.jpg" as="image">
-    <link rel="preload" href="../tourism_imgs/p5.jpg" as="image">
-    <link rel="preload" href="../tourism_imgs/p6.jpg" as="image">
+    <!-- Preload images with priority handling -->
+    <link rel="preload" href="../tourism_imgs/p1-sm.webp" as="image" type="image/webp">
+    <link rel="preload" href="../tourism_imgs/p2-sm.webp" as="image" type="image/webp">
+    <link rel="preload" href="../tourism_imgs/p3-sm.webp" as="image" type="image/webp">
+    <link rel="preload" href="../tourism_imgs/p4-sm.webp" as="image" type="image/webp">
+    <link rel="preload" href="../tourism_imgs/p5-sm.webp" as="image" type="image/webp">
+    <link rel="preload" href="../tourism_imgs/p6-sm.webp" as="image" type="image/webp">
 </head>
 <body>
     <header>
@@ -48,26 +49,121 @@
             </div>
         </section>
 
-        <section class="gallery-section container">
-            <div class="gallery-grid" id="gallery">
-                <!-- Column masonry: first six images eager for faster initial paint; others lazy with placeholder+fallback -->
-                <a class="gallery-item" href="../tourism_imgs/p1.jpg"><img src="../tourism_imgs/p1.jpg" alt="Tourism 1" loading="eager" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='../images/logo.webp';this.classList.add('is-loaded');"></a>
-                <a class="gallery-item" href="../tourism_imgs/p2.jpg"><img src="../tourism_imgs/p2.jpg" alt="Tourism 2" loading="eager" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='../images/logo.webp';this.classList.add('is-loaded');"></a>
-                <a class="gallery-item" href="../tourism_imgs/p3.jpg"><img src="../tourism_imgs/p3.jpg" alt="Tourism 3" loading="eager" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='../images/logo.webp';this.classList.add('is-loaded');"></a>
-                <a class="gallery-item" href="../tourism_imgs/p4.jpg"><img src="../tourism_imgs/p4.jpg" alt="Tourism 4" loading="eager" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='../images/logo.webp';this.classList.add('is-loaded');"></a>
-                <a class="gallery-item" href="../tourism_imgs/p5.jpg"><img src="../tourism_imgs/p5.jpg" alt="Tourism 5" loading="eager" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='../images/logo.webp';this.classList.add('is-loaded');"></a>
-                <a class="gallery-item" href="../tourism_imgs/p6.jpg"><img src="../tourism_imgs/p6.jpg" alt="Tourism 6" loading="eager" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='../images/logo.webp';this.classList.add('is-loaded');"></a>
-                <a class="gallery-item" href="../tourism_imgs/p7.jpg"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p7.jpg" alt="Tourism 7" loading="lazy" decoding="async" class="lazy"></a>
-                <a class="gallery-item" href="../tourism_imgs/p8.jpg"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p8.jpg" alt="Tourism 8" loading="lazy" decoding="async" class="lazy"></a>
-                <a class="gallery-item" href="../tourism_imgs/p9.jpg"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p9.jpg" alt="Tourism 9" loading="lazy" decoding="async" class="lazy"></a>
-                <a class="gallery-item" href="../tourism_imgs/p10.jpg"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p10.jpg" alt="Tourism 10" loading="lazy" decoding="async" class="lazy"></a>
-                <a class="gallery-item" href="../tourism_imgs/p11.jpg"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p11.jpg" alt="Tourism 11" loading="lazy" decoding="async" class="lazy"></a>
-                <a class="gallery-item" href="../tourism_imgs/p12.jpg"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p12.jpg" alt="Tourism 12" loading="lazy" decoding="async" class="lazy"></a>
-                <a class="gallery-item" href="../tourism_imgs/p13.jpg"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p13.jpg" alt="Tourism 13" loading="lazy" decoding="async" class="lazy"></a>
-                <a class="gallery-item" href="../tourism_imgs/p14.jpg"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p14.jpg" alt="Tourism 14" loading="lazy" decoding="async" class="lazy"></a>
-                <a class="gallery-item" href="../tourism_imgs/p15.jpg"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p15.jpg" alt="Tourism 15" loading="lazy" decoding="async" class="lazy"></a>
-                <a class="gallery-item" href="../tourism_imgs/p16.jpg"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p16.jpg" alt="Tourism 16" loading="lazy" decoding="async" class="lazy"></a>
-                <a class="gallery-item" href="../tourism_imgs/p17.jpg"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p17.jpg" alt="Tourism 17" loading="lazy" decoding="async" class="lazy"></a>
+        <section class="gallery-section">
+            <div class="gallery-masonry" id="gallery">
+                <!-- Responsive images with WebP format and lazy loading for consistent grid -->
+                <a class="gallery-item" href="../tourism_imgs/p2.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p2-sm.webp 300w, ../tourism_imgs/p2-md.webp 600w, ../tourism_imgs/p2.webp 1000w" type="image/webp">
+                        <img src="../tourism_imgs/p2-sm.jpg" alt="Tourism 2" loading="eager" decoding="async" fetchpriority="high" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw" onerror="this.onerror=null;this.src='../images/logo.webp';this.classList.add('is-loaded');">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
+                <a class="gallery-item" href="../tourism_imgs/p3.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p3-sm.webp 300w, ../tourism_imgs/p3-md.webp 600w, ../tourism_imgs/p3.webp 1000w" type="image/webp">
+                        <img src="../tourism_imgs/p3-sm.jpg" alt="Tourism 3" loading="eager" decoding="async" fetchpriority="high" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw" onerror="this.onerror=null;this.src='../images/logo.webp';this.classList.add('is-loaded');">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
+                <a class="gallery-item" href="../tourism_imgs/p4.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p4-sm.webp 300w, ../tourism_imgs/p4-md.webp 600w, ../tourism_imgs/p4.webp 1000w" type="image/webp">
+                        <img src="../tourism_imgs/p4-sm.jpg" alt="Tourism 4" loading="eager" decoding="async" fetchpriority="high" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw" onerror="this.onerror=null;this.src='../images/logo.webp';this.classList.add('is-loaded');">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
+                <a class="gallery-item" href="../tourism_imgs/p5.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p5-sm.webp 300w, ../tourism_imgs/p5-md.webp 600w, ../tourism_imgs/p5.webp 1000w" type="image/webp">
+                        <img src="../tourism_imgs/p5-sm.jpg" alt="Tourism 5" loading="eager" decoding="async" fetchpriority="high" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw" onerror="this.onerror=null;this.src='../images/logo.webp';this.classList.add('is-loaded');">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
+                <a class="gallery-item" href="../tourism_imgs/p6.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p6-sm.webp 300w, ../tourism_imgs/p6-md.webp 600w, ../tourism_imgs/p6.webp 1000w" type="image/webp">
+                        <img src="../tourism_imgs/p6-sm.jpg" alt="Tourism 6" loading="eager" decoding="async" fetchpriority="high" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw" onerror="this.onerror=null;this.src='../images/logo.webp';this.classList.add('is-loaded');">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
+                <a class="gallery-item" href="../tourism_imgs/p7.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p7-sm.webp 300w, ../tourism_imgs/p7-md.webp 600w, ../tourism_imgs/p7.webp 1000w" type="image/webp">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p7-sm.jpg" alt="Tourism 7" loading="lazy" decoding="async" class="lazy" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
+                <a class="gallery-item" href="../tourism_imgs/p8.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p8-sm.webp 300w, ../tourism_imgs/p8-md.webp 600w, ../tourism_imgs/p8.webp 1000w" type="image/webp">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p8-sm.jpg" alt="Tourism 8" loading="lazy" decoding="async" class="lazy" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
+                <a class="gallery-item" href="../tourism_imgs/p9.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p9-sm.webp 300w, ../tourism_imgs/p9-md.webp 600w, ../tourism_imgs/p9.webp 1000w" type="image/webp">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p9-sm.jpg" alt="Tourism 9" loading="lazy" decoding="async" class="lazy" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
+                <a class="gallery-item" href="../tourism_imgs/p10.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p10-sm.webp 300w, ../tourism_imgs/p10-md.webp 600w, ../tourism_imgs/p10.webp 1000w" type="image/webp">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p10-sm.jpg" alt="Tourism 10" loading="lazy" decoding="async" class="lazy" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
+                <a class="gallery-item" href="../tourism_imgs/p11.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p11-sm.webp 300w, ../tourism_imgs/p11-md.webp 600w, ../tourism_imgs/p11.webp 1000w" type="image/webp">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p11-sm.jpg" alt="Tourism 11" loading="lazy" decoding="async" class="lazy" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
+                <a class="gallery-item" href="../tourism_imgs/p12.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p12-sm.webp 300w, ../tourism_imgs/p12-md.webp 600w, ../tourism_imgs/p12.webp 1000w" type="image/webp">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p12-sm.jpg" alt="Tourism 12" loading="lazy" decoding="async" class="lazy" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
+                <a class="gallery-item" href="../tourism_imgs/p13.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p13-sm.webp 300w, ../tourism_imgs/p13-md.webp 600w, ../tourism_imgs/p13.webp 1000w" type="image/webp">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p13-sm.jpg" alt="Tourism 13" loading="lazy" decoding="async" class="lazy" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
+                <a class="gallery-item" href="../tourism_imgs/p14.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p14-sm.webp 300w, ../tourism_imgs/p14-md.webp 600w, ../tourism_imgs/p14.webp 1000w" type="image/webp">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p14-sm.jpg" alt="Tourism 14" loading="lazy" decoding="async" class="lazy" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
+                <a class="gallery-item" href="../tourism_imgs/p15.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p15-sm.webp 300w, ../tourism_imgs/p15-md.webp 600w, ../tourism_imgs/p15.webp 1000w" type="image/webp">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p15-sm.jpg" alt="Tourism 15" loading="lazy" decoding="async" class="lazy" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
+                <a class="gallery-item" href="../tourism_imgs/p16.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p16-sm.webp 300w, ../tourism_imgs/p16-md.webp 600w, ../tourism_imgs/p16.webp 1000w" type="image/webp">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p16-sm.jpg" alt="Tourism 16" loading="lazy" decoding="async" class="lazy" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
+                <a class="gallery-item" href="../tourism_imgs/p17.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p17-sm.webp 300w, ../tourism_imgs/p17-md.webp 600w, ../tourism_imgs/p17.webp 1000w" type="image/webp">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="../tourism_imgs/p17-sm.jpg" alt="Tourism 17" loading="lazy" decoding="async" class="lazy" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
             </div>
         </section>
 
@@ -82,7 +178,7 @@
 
     <script>
     (function(){
-        const container = document.querySelector('.gallery-grid');
+        const container = document.querySelector('.gallery-masonry');
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = lightbox.querySelector('.lightbox-img');
         const closeBtn = lightbox.querySelector('.lightbox-close');
@@ -90,70 +186,10 @@
         const nextBtn = lightbox.querySelector('.lightbox-next');
         let io = null, resizeTimer = null, currentIndex = -1;
 
-        function loadImageData(img){
-            return new Promise(resolve => {
-                const src = img.dataset.src || img.src;
-                const tmp = new Image();
-                tmp.src = src;
-                tmp.onload = () => resolve({ img, w: tmp.naturalWidth, h: tmp.naturalHeight, aspect: tmp.naturalWidth / Math.max(1, tmp.naturalHeight), src });
-                tmp.onerror = () => resolve({ img, w: 800, h: 600, aspect: 1.33, src });
-            });
-        }
-
         async function buildMosaic(){
             if(!container) return;
             const items = Array.from(container.querySelectorAll('.gallery-item'));
-            const infos = [];
-            for(const it of items){
-                const img = it.querySelector('img');
-                infos.push(await loadImageData(img));
-                // reset any previous sizing
-                it.style.gridColumnEnd = '';
-                it.style.gridRowEnd = '';
-            }
-
-            // compute layout parameters for consistent rectangles (4:3)
-            const style = getComputedStyle(container);
-            const gapPx = parseInt(style.getPropertyValue('gap')) || 6;
-            const rowUnit = parseInt(style.getPropertyValue('grid-auto-rows')) || 6;
-            const minCol = 140 + gapPx; // approximate min tile width + gap
-            const columns = Math.max(1, Math.floor((container.clientWidth + gapPx) / minCol));
-            const columnWidth = Math.floor((container.clientWidth - (columns - 1) * gapPx) / columns);
-            const aspectHeightFactor = 3 / 4; // height = width * (3/4) for 4:3 tiles
-
-            infos.forEach((info, idx) => {
-                const it = items[idx];
-                let colSpan = 1;
-                // explicit override via data-size attribute:
-                const explicit = (it.dataset.size || '').toLowerCase().trim();
-                if(explicit === 'large') colSpan = 2;
-                else if(explicit === 'small') colSpan = 1;
-                else {
-                    // deterministic defaults for rhythm
-                    if (idx % 7 === 3) colSpan = 2;
-                    if (idx % 5 === 0 && idx % 7 !== 3) colSpan = 2;
-                }
-
-                // desired height based on column width and aspect ratio (4:3)
-                const desiredHeight = Math.round(columnWidth * colSpan * aspectHeightFactor);
-                const rowSpan = Math.max(1, Math.round(desiredHeight / rowUnit));
-
-                it.style.gridColumnEnd = `span ${colSpan}`;
-                it.style.gridRowEnd = `span ${rowSpan}`;
-
-                // caption logic: use explicit data-caption if provided, otherwise use alt only when it's not a generic "Tourism N"
-                const alt = (info.img.alt || '').trim();
-                const captionText = info.img.dataset.caption ? info.img.dataset.caption.trim() : (alt && !/tourism\s*\d+$/i.test(alt) ? alt : '');
-                if(captionText){
-                    if(!it.querySelector('.caption')){
-                        const cap = document.createElement('span'); cap.className = 'caption'; cap.textContent = captionText;
-                        it.appendChild(cap);
-                    } else {
-                        it.querySelector('.caption').textContent = captionText;
-                    }
-                }
-            });
-
+            
             initLazyObserver();
             markEagerLoaded();
         }
@@ -166,7 +202,24 @@
                     entries.forEach(entry => {
                         if(entry.isIntersecting){
                             const img = entry.target;
-                            if(img.dataset.src) img.src = img.dataset.src;
+                            const picture = img.closest('picture');
+                            if(img.dataset.src) {
+                                // Update source elements if they exist
+                                if(picture) {
+                                    const sources = picture.querySelectorAll('source');
+                                    sources.forEach(src => {
+                                        const srcset = src.getAttribute('srcset');
+                                        if(srcset) {
+                                            const newSrcset = srcset.replace(/p\d+-/g, (match) => {
+                                                const num = img.alt.replace(/\D/g, '');
+                                                return `p${num}-`;
+                                            });
+                                            src.setAttribute('srcset', newSrcset);
+                                        }
+                                    });
+                                }
+                                img.src = img.dataset.src;
+                            }
                             img.onload = () => img.classList.add('is-loaded');
                             img.onerror = () => { img.src = '../images/logo.webp'; img.classList.add('is-loaded'); };
                             obs.unobserve(img);
