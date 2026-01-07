@@ -52,6 +52,13 @@
         <section class="gallery-section">
             <div class="gallery-masonry" id="gallery">
                 <!-- Responsive images with WebP format and lazy loading for consistent grid -->
+                <a class="gallery-item" href="../tourism_imgs/p1.jpg" data-size="regular">
+                    <picture>
+                        <source srcset="../tourism_imgs/p1-sm.webp 300w, ../tourism_imgs/p1-md.webp 600w, ../tourism_imgs/p1.webp 1000w" type="image/webp">
+                        <img src="../tourism_imgs/p1-sm.jpg" alt="Tourism 1" loading="eager" decoding="async" fetchpriority="high" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw" onerror="this.onerror=null;this.src='../images/logo.webp';this.classList.add('is-loaded');">
+                    </picture>
+                    <div class="gallery-overlay"><div class="gallery-overlay-content"><div class="gallery-overlay-icon"></div></div></div>
+                </a>
                 <a class="gallery-item" href="../tourism_imgs/p2.jpg" data-size="regular">
                     <picture>
                         <source srcset="../tourism_imgs/p2-sm.webp 300w, ../tourism_imgs/p2-md.webp 600w, ../tourism_imgs/p2.webp 1000w" type="image/webp">
@@ -196,46 +203,71 @@
 
         function initLazyObserver(){
             const lazyImgs = Array.from(document.querySelectorAll('.gallery-item img.lazy'));
-            if(io){ lazyImgs.forEach(img => io.observe(img)); return; }
+            
+            // Fallback: If no lazy images or IntersectionObserver fails, load them immediately
+            if(lazyImgs.length === 0) return;
+            
             if('IntersectionObserver' in window){
                 io = new IntersectionObserver((entries, obs) => {
                     entries.forEach(entry => {
                         if(entry.isIntersecting){
                             const img = entry.target;
                             const picture = img.closest('picture');
+                            
+                            // Load the image immediately
                             if(img.dataset.src) {
-                                // Update source elements if they exist
-                                if(picture) {
-                                    const sources = picture.querySelectorAll('source');
-                                    sources.forEach(src => {
-                                        const srcset = src.getAttribute('srcset');
-                                        if(srcset) {
-                                            const newSrcset = srcset.replace(/p\d+-/g, (match) => {
-                                                const num = img.alt.replace(/\D/g, '');
-                                                return `p${num}-`;
-                                            });
-                                            src.setAttribute('srcset', newSrcset);
-                                        }
-                                    });
-                                }
                                 img.src = img.dataset.src;
                             }
-                            img.onload = () => img.classList.add('is-loaded');
-                            img.onerror = () => { img.src = '../images/logo.webp'; img.classList.add('is-loaded'); };
+                            
+                            // Mark as loaded once image loads
+                            if(img.complete) {
+                                img.classList.add('is-loaded');
+                            } else {
+                                img.onload = () => img.classList.add('is-loaded');
+                                img.onerror = () => { 
+                                    console.warn('Image failed to load:', img.dataset.src);
+                                    img.src = '../images/logo.webp'; 
+                                    img.classList.add('is-loaded'); 
+                                };
+                            }
                             obs.unobserve(img);
                         }
                     });
                 }, { rootMargin: '1000px' });
                 lazyImgs.forEach(img => io.observe(img));
             } else {
-                lazyImgs.forEach(img => { if(img.dataset.src) img.src = img.dataset.src; img.onload = () => img.classList.add('is-loaded'); img.onerror = () => { img.src = '../images/logo.webp'; img.classList.add('is-loaded'); }; });
+                // Fallback for browsers without IntersectionObserver
+                lazyImgs.forEach(img => { 
+                    if(img.dataset.src) img.src = img.dataset.src; 
+                    img.classList.add('is-loaded');
+                });
             }
         }
 
         function markEagerLoaded(){
             document.querySelectorAll('.gallery-item img[loading="eager"]').forEach(img => {
-                img.onerror = () => { img.src = '../images/logo.webp'; img.classList.add('is-loaded'); };
-                if(img.complete) img.classList.add('is-loaded'); else img.onload = () => img.classList.add('is-loaded');
+                // Add error handler
+                img.onerror = () => { 
+                    console.warn('Eager image failed to load:', img.src);
+                    img.src = '../images/logo.webp'; 
+                    img.classList.add('is-loaded'); 
+                };
+                
+                // Check if already loaded
+                if(img.complete) {
+                    img.classList.add('is-loaded');
+                } else {
+                    // Wait for load event
+                    img.onload = () => img.classList.add('is-loaded');
+                    
+                    // Fallback: Force load after 3 seconds even if not fully loaded
+                    setTimeout(() => {
+                        if(!img.classList.contains('is-loaded')) {
+                            console.log('Forcing image load:', img.src);
+                            img.classList.add('is-loaded');
+                        }
+                    }, 3000);
+                }
             });
         }
 
@@ -270,8 +302,25 @@
 
         window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(buildMosaic, 180); });
 
+        // Diagnostic logging
+        console.log('Gallery script loaded');
+        console.log('Gallery container:', document.querySelector('.gallery-masonry'));
+        console.log('Total gallery items:', document.querySelectorAll('.gallery-item').length);
+        
         // Initial build
         buildMosaic();
+        
+        // Additional fallback: After 5 seconds, check if any images failed
+        setTimeout(() => {
+            const allImages = document.querySelectorAll('.gallery-item img');
+            const loadedImages = document.querySelectorAll('.gallery-item img.is-loaded');
+            console.log(`Loaded images: ${loadedImages.length}/${allImages.length}`);
+            
+            if(loadedImages.length === 0) {
+                console.warn('No images loaded! Forcing display...');
+                allImages.forEach(img => img.classList.add('is-loaded'));
+            }
+        }, 5000);
 
     })();
     </script>
