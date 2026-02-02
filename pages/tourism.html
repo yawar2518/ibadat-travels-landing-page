@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourism - IBADAT</title>
+    <link rel="icon" href="../images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .tourism-page {
+            padding: 100px 20px 60px;
+            background: #ffffff;
+            min-height: 100vh;
+        }
+        
+        .tourism-header {
+            text-align: center;
+            color: #1a365d;
+            margin-bottom: 50px;
+        }
+        
+        .tourism-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #1a365d;
+            font-weight: 600;
+        }
+        
+        .tourism-header p {
+            font-size: 1.1rem;
+            color: #4b5b63;
+        }
+        
+        .tourism-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .tourism-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .tourism-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            flex: 0 1 calc(33.333% - 20px);
+            min-width: 280px;
+            max-width: 350px;
+        }
+        
+        .tourism-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(217, 119, 6, 0.3);
+        }
+        
+        .tourism-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        .tourism-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 1024px) {
+            .tourism-card {
+                flex: 0 1 calc(50% - 20px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .tourism-page {
+                padding: 80px 15px 40px;
+            }
+            
+            .tourism-header h1 {
+                font-size: 2rem;
+            }
+            
+            .tourism-card {
+                flex: 0 1 100%;
+                max-width: 450px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="../images/logo.webp" alt="IBADAT Logo" class="logo-img">
+                <div>
+                    <h1>IBADAT</h1>
+                    <p>Umrah & Zayarat Group</p>
+                </div>
+            </div>
+
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="navMenu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#about">About Us</a></li>
+                <li><a href="../index.html#services">Services</a></li>
+                <li><a href="umrah-packages.html" class="blink">Packages</a></li>
+                <li><a href="tourism.html" class="active">Tourism Gallery</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="tourism-page">
+        <div class="tourism-header">
+            <h1>Explore The World</h1>
+            <p>Discover amazing destinations with our curated tourism experiences</p>
+        </div>
+
+        <div class="tourism-container">
+            <div class="tourism-grid">
+                <div class="tourism-card"><img src="../tourism_imgs/p2.webp" alt="Tourism"></div>
+                <div class="tourism-card"><img src="../tourism_imgs/p3.webp" alt="Tourism"></div>
+                <div class="tourism-card"><img src="../tourism_imgs/p4.webp" alt="Tourism"></div>
+                <div class="tourism-card"><img src="../tourism_imgs/p5.webp" alt="Tourism"></div>
+                <div class="tourism-card"><img src="../tourism_imgs/p6.webp" alt="Tourism"></div>
+                <div class="tourism-card"><img src="../tourism_imgs/p7.webp" alt="Tourism"></div>
+                <div class="tourism-card"><img src="../tourism_imgs/p8.webp" alt="Tourism"></div>
+                <div class="tourism-card"><img src="../tourism_imgs/p9.webp" alt="Tourism"></div>
+                <div class="tourism-card"><img src="../tourism_imgs/p10.webp" alt="Tourism"></div>
+                <div class="tourism-card"><img src="../tourism_imgs/p11.webp" alt="Tourism"></div>
+                <div class="tourism-card"><img src="../tourism_imgs/p12.webp" alt="Tourism"></div>
+                <div class="tourism-card"><img src="../tourism_imgs/p14.webp" alt="Tourism"></div>
+                <div class="tourism-card"><img src="../tourism_imgs/p15.webp" alt="Tourism"></div>
+                <div class="tourism-card"><img src="../tourism_imgs/p16.webp" alt="Tourism"></div>
+                <div class="tourism-card"><img src="../tourism_imgs/p17.webp" alt="Tourism"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/script.js"></script>
+</body>
+</html>

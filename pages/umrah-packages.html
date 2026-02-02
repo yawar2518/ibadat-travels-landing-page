@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBADAT - Umrah Packages</title>
+    <link rel="icon" href="../images/favicon.png" type="image/jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+
+
+<body>
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">
+                <img src="https://kabarbaik.co/wp-content/uploads/2025/06/KAKBAH-ILUSTRASI.jpg" alt="IBADAT Logo"
+                    class="logo-img">
+                <div>
+                    <h1>IBADAT</h1>
+                    <p>Umrah & Zayarat Group</p>
+                </div>
+            </a>
+
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="navMenu">
+                <li><a href="../index.html#home">Home</a></li>
+                <li><a href="../index.html#about">About Us</a></li>
+                <li><a href="../index.html#services">Services</a></li>
+                <li><a href="./umrah-packages.html" class="blink">Packages</a></li>
+                <li><a href="tourism.html">Tourism Gallery</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="packages-page">
+        <section class="packages-hero">
+            <h2>Umrah Packages</h2>
+            <p>Explore our professionally curated Umrah packages — comfortable hotels, reliable flights, and trusted service.</p>
+        </section>
+
+        <!-- Filters removed for now to simplify UI -->
+
+        <div class="packages-container">
+            <section class="packages-list">
+                <div id="packagesLoader" class="loader hidden">Loading packages…</div>
+                <section class="packages-list">
+                <div class="packages-grid" id="packagesGrid">
+                    <!-- Packages will be rendered here by JS -->
+                    <p id="noPackages" class="muted" style="display:none">No packages available. Admin can add packages via <code>/pages/admin.html</code>.</p>
+                </div> 
+                </section>
+            </section>
+        </div>
+    </main>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
+    <script src="../js/data-store.js"></script>
+    <script src="../js/umrah.js"></script>
+
+    <!-- Floating Contact Button -->
+    <a id="contactFab" class="fab" href="../index.html#contact" aria-label="Contact Us" title="Contact Us">
+      <i class="fas fa-envelope"></i>
+    </a>
+
+    <script>
+      // If on index page, smooth scroll to contact form instead
+      (function(){
+        const fab = document.getElementById('contactFab');
+        if(!fab) return;
+        fab.addEventListener('click', function(e){
+          try{
+            // If current page is index.html, perform smooth scroll, prevent navigation
+            const current = window.location.pathname.split('/').pop();
+            if(!current || current === 'index.html'){
+              e.preventDefault();
+              const target = document.getElementById('contact');
+              if(target){ target.scrollIntoView({ behavior: 'smooth', block: 'start' }); target.querySelector('input, textarea, button')?.focus(); }
+            }
+          }catch(err){ /* ignore and allow default */ }
+        });
+      })();
+    </script>
+</body>
+
+</html>
